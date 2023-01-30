@@ -18,18 +18,11 @@ Already finish the reading of
 * [Tutorial API 01](https://github.com/X-I-A/xia-tutorial-api-01)
 
 
-## Introduction
-
-In this tutorial, you will see a REST based solution for treating three main challenge of API call:
-1. No over fetching: You won't get more data than you need
-2. No under fetching: You could get data from several data model at one time
-3. Progressive loading: You could get the data part by part in asynchronous mode
-
 ## Start with example
 
 Please clone and deploy the example code (see [installation guide](tutorial/install.md) for instruction).
 
-Or just visiting the already deployed [online version](https://xia-tutorial-api-01-03-srspyyjtqa-ew.a.run.app/order)
+Or just visiting the already deployed [online version](https://xia-tutorial-api-01-04-srspyyjtqa-ew.a.run.app/order)
 
 Here is a 1-minute video to show the different solutions
 
@@ -39,8 +32,8 @@ Editor maps the call to /api endpoint. /api has much more functionalities and is
 
 ### Modifications:
 
-Based on the code of [Tutorial API 01-02](https://github.com/X-I-A/xia-tutorial-api-01-02), 
-we just do a simple modification:
+Based on the code of [Tutorial API 01-01](https://github.com/X-I-A/xia-tutorial-api-01-02), 
+we just :
 * models/purchase_order.py:
     * Adding a `CompressStringField` at External Data Model (field `Customer.description`).
 
