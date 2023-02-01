@@ -24,74 +24,18 @@ Please clone and deploy the example code (see [installation guide](tutorial/inst
 
 Or just visiting the already deployed [online version](https://xia-tutorial-api-01-04-srspyyjtqa-ew.a.run.app/order)
 
-Here is a 1-minute video to show the different solutions
-
-https://user-images.githubusercontent.com/49595269/215569310-ef084765-a2bf-4ed2-9def-a91b740187f8.mp4
-
-Editor maps the call to /api endpoint. /api has much more functionalities and is the real backend entry point.
-
 ### Modifications:
 
-Based on the code of [Tutorial API 01-01](https://github.com/X-I-A/xia-tutorial-api-01-02), 
-we just :
-* models/purchase_order.py:
-    * Adding a `CompressStringField` at External Data Model (field `Customer.description`).
+This version is nearly the same as [Tutorial API 01-01](https://github.com/X-I-A/xia-tutorial-api-01-01), 
 
-CompressStringField is designed to hold a big string in compressed format. Unless is requested, the field will show
-its compressed bytes content on base64 format.
+## Data Operations
+### Creating data
 
-## No over fetching
-
-We have defined a data model but not all field is required for a specified application. So it is possible to add a 
-catalog object in API call to tell the server which fields are needed.
-
-With the following catalog object, only po_number and order_status are fetched
-```
-&_catalog={"po_number": null, "order_status": null}
-```
-
-## No under fetching
-
-There is no need to launch several API call to get data from several data models. 
-The data models must have predefined relationship, which is represented by `ExternalField`
-
-With the following catalog object, data from Customer is loaded into PurchaseOrder data model
-```
-&_lazy=false&_catalog={"po_number": null, "order_status": null, "customer_detail": {"id": null, "description": null}}
-```
-
-You could control the load behavior of each field. We set `customer_detail.description` to true in order to prevent 
-decompressing description field. If the value is null, the global lazy setting = `false` will be used.
-```
-&_lazy=false&_catalog={"po_number": null, "order_status": null, "customer_detail": {"id": null, "description": true}}
-```
-
-## Progressive loading
-
-Under fetching is sometimes useful to load progressively a web page. When the External Field is at lazy mode,
-the field will provide all the information to load the data in a separate API call. 
-
-Here is the configuration for a progressive loading:
-```
-&_lazy=true&_catalog={"po_number": null, "order_status": null, "customer_detail": {"id": null, "description": false}}
-```
-
-After the first document load, the external field will contain the information such as:
-```
-{"_as_list":false,"_catalog":null,"_class":"Customer","_field_map":{"customer":"id"},"_lazy":true,"_mode":"lazy","_show_hidden":false}
-```
-* `_mode`: Always equal to value `lazy`. Might be used to detect the lazy mode 
-* `_as_list`: The external field should be presented at list or not
-* `_catalog`: Catalog parameter to be passed for the API call
-* `_lazy`: Current lazy mode, should always to be true. Might be used to detect the lazy mode
-* `_show_hidden`: Show hidden parameters or not for the API call
-* `_class`: Class name, should store resource_mapping in the DOM to get the url of the requested class
-* `_field_map`: The field map to the current data object
-
-Time to launch the API could depend on different situation. Two of the most used case are:
-* Loading directly the data (Progressive loading)
-* Loading the data only after user's input. For example, after expanding the tree node (Interactive loading)
-
+There are two API endpoints for creating data:
+* collection level POST method: https://xia-tutorial-api-01-04-srspyyjtqa-ew.a.run.app/api/order
+    * For creating massive data entries
+* document level POST method: https://xia-tutorial-api-01-04-srspyyjtqa-ew.a.run.app/api/order/<key to the document>
+    * For creating a specific document 
 
 ### Next Step: Making your data persistent
 
